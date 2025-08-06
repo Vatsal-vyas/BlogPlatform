@@ -4,7 +4,6 @@ import com.vatsal.blogPlatform.exception.DuplicateResourceException;
 import com.vatsal.blogPlatform.exception.ResourceNotFoundException;
 import com.vatsal.blogPlatform.model.Author;
 import com.vatsal.blogPlatform.repository.AuthorRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,12 +12,10 @@ import org.springframework.stereotype.Service;
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AuthorService(AuthorRepository authorRepository, PasswordEncoder passwordEncoder) {
+    public AuthorService(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -33,7 +30,7 @@ public class AuthorService {
         newAuthor.setName(name);
         newAuthor.setEmail(email);
         newAuthor.setUsername(username);
-        newAuthor.setPassword(passwordEncoder.encode(password));
+        newAuthor.setPassword(password);
 
         return authorRepository.save(newAuthor);
     }
